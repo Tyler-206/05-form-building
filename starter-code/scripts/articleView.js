@@ -52,7 +52,6 @@ articleView.handleMainNav = function() {
     $('.tab-content').hide();
     $('#' + $(this).data('content')).fadeIn();
   });
-
   $('.main-nav .tab:first').click();
 };
 
@@ -74,7 +73,16 @@ articleView.setTeasers = function() {
 };
 
 articleView.initNewArticlePage = function() {
- // TODO: Make the tabs work. Right now, you're seeing all the tab content (items with a class of tab-content) on the page at once. The section with the id of "write" should show when the "write" tab is clicked; it is also the default and should be shown on page load. The section with the id of "articles" should show when the "preview" tab is clicked.
+ // TODO: DONE Make the tabs work. Right now, you're seeing all the tab content (items with a class of tab-content) on the page at once. The section with the id of "write" should show when the "write" tab is clicked; it is also the default and should be shown on page load. The section with the id of "articles" should show when the "preview" tab is clicked.
+  articleView.handleMainNav = function() {
+    $('.main-nav').on('click', '.tab', function() {
+      $('.tab-content').hide();
+      $('#' + $(this).data('content')).fadeIn();
+    });
+    $('.main-nav .tab:first').click();
+  };
+
+  articleView.handleMainNav();
 
   // TODO: Hide the article-export section on page load
 
@@ -102,7 +110,7 @@ articleView.create = function() {
     // Set up this "export" functionality. When data is inputted into the form, that data should be converted to stringified JSON. Then, display that JSON in the element inside the article-export section. The article-export section was hidden on page load; make sure to show it as soon as data is entered in the form.
 
 };
-
+articleView.initNewArticlePage();
 
 articleView.initIndexPage = function() {
   articleView.populateFilters();
