@@ -72,18 +72,30 @@ articleView.setTeasers = function() {
   });
 };
 
+function Entry() {
+  this.title = $('#entryTitle').val()
+  this.body = $('#entryBody').val()
+  this.author = $('#entryAuthor').val()
+  this.authorUrl = $('#entryAuthorUrl').val()
+  this.category = $('#entryCategory').val()
+  this.publushed = $('#entryPublished').val()
+}
+
+
+Article.prototype.templateDomify = function(element) {
+  var template = $('#entryTemplate').html();
+  var compiled = Handlebars.compile(template);
+  $(element).append(compiled(this));
+}
+
 // articleView.create();
 articleView.initNewArticlePage = function() {
  // TODO: DONE Make the tabs work. Right now, you're seeing all the tab content (items with a class of tab-content) on the page at once. The section with the id of "write" should show when the "write" tab is clicked; it is also the default and should be shown on page load. The section with the id of "articles" should show when the "preview" tab is clicked.
-  articleView.handleMainNav = function() {
-    $('.main-nav').on('click', '.tab', function() {
-      $('.tab-content').hide();
-      $('#' + $(this).data('content')).fadeIn();
-    });
-    $('.main-nav .tab:first').click();
-  };
-
-  articleView.handleMainNav();
+  $('.main-nav').on('click', '.tab', function() {
+    $('.tab-content').hide();
+    $('#' + $(this).data('content')).fadeIn();
+  });
+  $('.main-nav .tab:first').click();
 
   // TODO: Hide the article-export section on page load
   $('#articel-export').hide();
@@ -99,12 +111,10 @@ articleView.initNewArticlePage = function() {
     rawData.newEntry.body = $('#entryBody').val();
     rawData.newEntry.author= $('#entryAuthor').val();
     rawData.newEntry.authorUrl = $('#entryAuthorUrl').val();
-    rawData.newEntry.templateDomify = $('#articles').val();
+    rawData.newEntry.templateDomify = $('#articles');
   }
-  // rawData.showPreview();
+  rawData.showPreview();
 };
-// $('#article-preview').on('change', rawData.showPreview);
-
 // this is the function that generates the preview and shows the export field
 articleView.create = function() {
   // TODO: Set up a var to hold the new article we are creating.
@@ -117,12 +127,11 @@ articleView.create = function() {
     $('#article-export').empty();
     rawData.init();
   };
-
   // TODO: Instantiate an article based on what's in the form fields:
   rawData.init = function () {
-    rawData.newEntry = new Article({});
+    rawData.newEntry = new Entry({});
     rawData.forEach(function (entry) {
-      var existingEntry = new Article({
+      var existingEntry = new Entry({
         author: entry.author,
         authorUrl: entry.authorUrl,
         title: entry.title,
@@ -133,20 +142,14 @@ articleView.create = function() {
       existingEntry.templateDomify('#article-export');
     });
   };
-// rawData.init();
   // TODO: Use our interface to the Handblebars template to put the article preview into the DOM:
-  Article.prototype.templateDomify = function(element) {
-    var template = $('#entryTemplate').html();
-    var compiled = Handlebars.compile(template);
-    $(element).append(compiled(this));
-  }
   // TODO: The new articles we create will be shown as JSON in an element in our article-export section. From there, we can copy/paste the JSON into our source data file.
     // Set up this "export" functionality. When data is inputted into the form, that data should be converted to stringified JSON. Then, display that JSON in the element inside the article-export section. The article-export section was hidden on page load; make sure to show it as soon as data is entered in the form.
-
+  $('#checkbox').on('click', rawData.saveEntry);
 };
 
 // articleView.initNewArticlePage();
-$('#entryform').on('change', articleView.initNewArticlePage());
+$('#article-export').on('change', articleView.create());
 articleView.initIndexPage = function() {
   articleView.populateFilters();
   articleView.handleCategoryFilter();
