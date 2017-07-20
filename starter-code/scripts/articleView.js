@@ -72,19 +72,18 @@ articleView.setTeasers = function() {
   });
 };
 
-// articleView.create();
 articleView.initNewArticlePage = function() {
  // TODO: DONE Make the tabs work. Right now, you're seeing all the tab content (items with a class of tab-content) on the page at once. The section with the id of "write" should show when the "write" tab is clicked; it is also the default and should be shown on page load. The section with the id of "articles" should show when the "preview" tab is clicked.
   articleView.handleMainNav = function() {
-    $('.main-nav').on('click', '.tab', function() {
-      $('.tab-content').hide();
+    $('.main-nav').on('click', '.tab', function(e) {
+      e.preventDefault();
+      $('#articles').hide();
       $('#' + $(this).data('content')).fadeIn();
     });
     $('.main-nav .tab:first').click();
   };
 
   articleView.handleMainNav();
-
   // TODO: Hide the article-export section on page load
   $('#articel-export').hide();
   $('#article-json').on('focus', function(){
@@ -92,60 +91,39 @@ articleView.initNewArticlePage = function() {
   });
 
   // TODO: Add an event handler to update the preview and the article-export field if any inputs change.
-  rawData.showPreview = function (event) {
-    event.preventDefault();
-    $('#articles').empty();
-    rawData.newEntry.title = $('#entryTitle').val();
-    rawData.newEntry.body = $('#entryBody').val();
-    rawData.newEntry.author= $('#entryAuthor').val();
-    rawData.newEntry.authorUrl = $('#entryAuthorUrl').val();
-    rawData.newEntry.templateDomify = $('#articles').val();
-  }
-  // rawData.showPreview();
+  $('#article-export').on('change', articleView.create());
 };
-// $('#article-preview').on('change', rawData.showPreview);
 
 // this is the function that generates the preview and shows the export field
 articleView.create = function() {
   // TODO: Set up a var to hold the new article we are creating.
   // Clear out the #articles element, so we can put in the updated preview
-  rawData.saveEntry = function (event) {
-    event.preventDefault();
-    rawData.data.push(rawData.newEntry);
-    rawData.newEntry = new Article({});
-    $('#articles').empty();
-    $('#article-export').empty();
-    rawData.init();
-  };
+  var newEntry = new Article ({
+      this.author = $('#entryAuthor').val();
+      this.title = $('#entryTitle').val();
+      this.authorUrl = $('#entryAuthorUrl').val();
+      this.category = $('#entryCategory').val();
+      this.body: $('#entryBody').val();
+      this.published: $('#entryPublished').val();
+    });
 
   // TODO: Instantiate an article based on what's in the form fields:
-  rawData.init = function () {
-    rawData.newEntry = new Article({});
-    rawData.forEach(function (entry) {
-      var existingEntry = new Article({
-        author: entry.author,
-        authorUrl: entry.authorUrl,
-        title: entry.title,
-        category: entry.category,
-        body: entry.body,
-        publishedOn: entry.publishedOn,
-      });
+
       existingEntry.templateDomify('#article-export');
     });
   };
-// rawData.init();
+
   // TODO: Use our interface to the Handblebars template to put the article preview into the DOM:
-  Article.prototype.templateDomify = function(element) {
     var template = $('#entryTemplate').html();
     var compiled = Handlebars.compile(template);
     $(element).append(compiled(this));
   }
+
   // TODO: The new articles we create will be shown as JSON in an element in our article-export section. From there, we can copy/paste the JSON into our source data file.
     // Set up this "export" functionality. When data is inputted into the form, that data should be converted to stringified JSON. Then, display that JSON in the element inside the article-export section. The article-export section was hidden on page load; make sure to show it as soon as data is entered in the form.
-
+   var stringifiedData = JSON.stringify('')
 };
 
-// articleView.initNewArticlePage();
 $('#entryform').on('change', articleView.initNewArticlePage());
 articleView.initIndexPage = function() {
   articleView.populateFilters();

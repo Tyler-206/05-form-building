@@ -55,14 +55,10 @@
                    5. Article category
                    6. Some way to know if this article is a draft or is published -->
           <form id="entryform">
-            <!-- <fieldset> -->
-              <legend>new article</legend>
+              <legend>New article</legend>
               <label>
                 <input type="text" id="entryTitle" placeholder="title"><br>
               </label>
-              <!-- <label>
-                <input type="text" id="entryBody"placeholder="body">
-              </label> -->
               <label>
                 <input type="text" id="entryAuthor" placeholder="author"><br>
               </label>
@@ -77,22 +73,20 @@
               <textarea rows="8"  id="entryBody"></textarea>
               </label>
               <label>
-                <input type="checkbox" id="checkbox" value="Published">
+                <input type="checkbox" id="entryPublished">
                 <label for="Published">Published</label>
               </label>
-            <!-- </fieldset> -->
           </form>
-
       </section>
-
       <section id="articles" class="tab-content">
         <!-- NOTE: This is where we will display our article preview -->
       </section>
 
       <section id="article-export">
         <!-- TODO: Refer to the preview image to see what we will be building here: we need a container of some kind to hold a JSON export of our article. Ideally this container would show only a incipit (short preview) of the JSON and also be clickable to allow easy selection of the text it holds. What kind of element could we use for this? -->
-
-
+        <!-- DONE -->
+        <div id='#article-json'>
+        </div>
       </section>
 
     </main>
@@ -110,7 +104,7 @@
       // TODO: DONE We will need to call a function here to initialize the behaviors on this page, once we get them built out. Why?
       // (Look at the bottom of index.html as a reference. Since we are now using our JS on two different HTML pages that have different needs as to what parts of the code they utilize, we need to build a function that inializes each page.)
       //  Hint: Look in articleView.js for a function that does this.
-      articleView.initNewArticlePage()
+      articleView.initNewArticlePage();
     </script>
   </body>
 </html>
