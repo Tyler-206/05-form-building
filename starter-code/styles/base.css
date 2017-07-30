@@ -45,4 +45,28 @@ a:visited {
 
 /*FORM STYLES
 =======================================*/
-/*TODO: Add the CSS needed to style the form*/
+/*DONEAdd the CSS needed to style the form*/
+form input {
+  font-size: 200%;
+  border: none;
+  border-bottom:  .05em solid green;
+
+}
+
+form label {
+  font-size: 120%;
+}
+
+textarea {
+  border: .01em solid green;
+  height: 50%;
+  clear: both;
+}
+
+input#entryCategory {
+  display: block;
+}
+
+#entryPublished {
+  width: auto;
+}
